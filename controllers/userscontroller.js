@@ -34,6 +34,37 @@ exports.getAllUsers = async(req, res, next) => {
 
 }
 
+// get user details
+exports.getUserDetails = async(req, res, next) => {
+    try{
+        const result = await Users.find({username: req.params.username})
+
+        if(result){
+            return res.status(200).json({
+                status: "Success",
+                message: "Successfully retrieved user details",
+                data : {
+                    result
+                }
+            })
+        }
+
+        return res.status(400).json({
+            status : "Fail",
+            message: "No user found"
+        })
+              
+
+    }catch(error){
+        res.status(500).json({
+            status: "Error",
+            message: "An Error occured, try again."
+        })
+        next(error)
+    }
+
+}
+
 
 
 //update user details
