@@ -2,7 +2,6 @@ const Invoices = require("../models/invoice")
 
 
 // Creates new invoice 
-
 exports.generateInvoice = async(req, res, next) => {
     try{
         const results = await Invoices.create({

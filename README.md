@@ -1,7 +1,8 @@
-# BSA BACKEND - API DOCUMENTATION
+# BSA BACKEND 
+# API DOCUMENTATION FOR USERS
 
-# GET ALL USERS 
-## Endpoint (GET REQUEST)
+
+## Get all users endpoint (GET REQUEST)
 base_URL/api/bsa/getAllUsers
 ## sample output
 {
@@ -37,9 +38,7 @@ base_URL/api/bsa/getAllUsers
 }
 
 
-# GET USER DETAILS
-
-## Endpoint (GET REQUEST)
+## Get UserDetails Endpoint (GET REQUEST)
 base_URL/api/bsa/getUser/:username
 
 ## Sample output
@@ -63,9 +62,8 @@ base_URL/api/bsa/getUser/:username
     }
 }
 
-# UPDATE USER
 
-## Endpoint (PATCH REQUEST)
+## Update User Endpoint (PATCH REQUEST)
 base_URL/api/bsa/updateUser/:username
 
 ## sample body
@@ -75,14 +73,11 @@ base_URL/api/bsa/updateUser/:username
     "password" : "jerome1234"
 }
 
-# DELETE USER
-
-## Endpoint (DELETE REQUEST)
+## Delete User Endpoint (DELETE REQUEST)
 base_URL/api/bsa/deleteUser/:username
 
-# Creating new user
 
-## Endpoint (POST REQUEST)
+## Create new user Endpoint (POST REQUEST)
 base_URL/api/bsa/signUp
 
 ## Body
@@ -94,9 +89,7 @@ base_URL/api/bsa/signUp
     "dateOfBirth" : "2023-08-12T23:14:15.266Z"
 }
 
-# User SIGN IN
-
-## Endpoint (POST REQUEST)
+##  User SignIn Endpoint (POST REQUEST)
 base_URL/api/bsa/signIn
 ## Body 
 {
@@ -121,6 +114,149 @@ base_URL/api/bsa/signIn
         "__v": 0
     }
 }
+
+# API DOCUMENTATION FOR INVOICES
+
+## Generate invoice endpoint (POST REQUEST)
+base_URL/api/bsa/generateInvoice
+
+## body 
+{
+    "username" : "andyYeboah",
+    "refNumber" : "002",
+    "senderName" : "Yeboah Andrews",
+    "senderContact" : "0247668944",
+    "senderLocation" : "Manchester",
+    "receiverName" : "Wilson Aballey",
+    "receiverContact" : "0203232764",
+    "receiverLocation" : "Accra, Ghana",
+    "items" : [
+        {
+            "item" : "iphone 13 pro max",
+            "description" : "A slightly used iphone 6s with no cracks",
+            "quantiy" : 2,
+            "price" : 4000
+        },
+        {
+            "item" : "Samsung Television",
+            "description" : "Fresh in box",
+            "quantiy" : 1,
+            "price" : 200
+        }
+    ]
+}
+
+## Get all invoices endpoint (GET REQUEST)
+base_URL/api/bsa/getAllInvoices
+
+## sample output
+{
+    "status": "Success",
+    "message": "Successfully retrieved invoices",
+    "results": 2,
+    "data": {
+        "result": [
+            {
+                "_id": "64db66bc08da5225b224a56b",
+                "username": "andyYeboah",
+                "refNumber": "001",
+                "senderName": "Yeboah Andrews",
+                "senderContact": "0247668944",
+                "senderLocation": "Manchester",
+                "receiverName": "Wilson Aballey",
+                "receiverContact": "0203232764",
+                "receiverLocation": "Accra, Ghana",
+                "items": [
+                    {
+                        "item": "iphone 6s",
+                        "description": "A slightly used iphone 6s with no cracks",
+                        "price": 100,
+                        "_id": "64db66bc08da5225b224a56c"
+                    },
+                    {
+                        "item": "Nasco Television",
+                        "description": "New but with some scratches at the back",
+                        "price": 200,
+                        "_id": "64db66bc08da5225b224a56d"
+                    }
+                ],
+                "createdAt": "2023-08-15T11:51:24.241Z",
+                "updatedAt": "2023-08-15T11:51:24.241Z",
+                "__v": 0
+            },
+            {
+                "_id": "64db68795e5603c7cb2a9e7c",
+                "username": "andyYeboah",
+                "refNumber": "002",
+                "senderName": "Yeboah Andrews",
+                "senderContact": "0247668944",
+                "senderLocation": "Manchester",
+                "receiverName": "Wilson Aballey",
+                "receiverContact": "0203232764",
+                "receiverLocation": "Accra, Ghana",
+                "items": [
+                    {
+                        "item": "iphone 13 pro max",
+                        "description": "A slightly used iphone 6s with no cracks",
+                        "price": 4000,
+                        "_id": "64db68795e5603c7cb2a9e7d"
+                    },
+                    {
+                        "item": "Samsung Television",
+                        "description": "Fresh in box",
+                        "price": 200,
+                        "_id": "64db68795e5603c7cb2a9e7e"
+                    }
+                ],
+                "createdAt": "2023-08-15T11:58:49.414Z",
+                "updatedAt": "2023-08-15T11:58:49.414Z",
+                "__v": 0
+            }
+        ]
+    }
+}
+
+## Get invoice details enpoint (GET request)
+base_URL/api/bsa/getInvoiceDetails/:refNumber
+
+## Sample output
+{
+    "status": "Success",
+    "message": "Successfully retrieved invoice details",
+    "data": {
+        "result": [
+            {
+                "_id": "64db66bc08da5225b224a56b",
+                "username": "andyYeboah",
+                "refNumber": "001",
+                "senderName": "Yeboah Andrews",
+                "senderContact": "0247668944",
+                "senderLocation": "Manchester",
+                "receiverName": "Wilson Aballey",
+                "receiverContact": "0203232764",
+                "receiverLocation": "Accra, Ghana",
+                "items": [
+                    {
+                        "item": "iphone 6s",
+                        "description": "A slightly used iphone 6s with no cracks",
+                        "price": 100,
+                        "_id": "64db66bc08da5225b224a56c"
+                    },
+                    {
+                        "item": "Nasco Television",
+                        "description": "New but with some scratches at the back",
+                        "price": 200,
+                        "_id": "64db66bc08da5225b224a56d"
+                    }
+                ],
+                "createdAt": "2023-08-15T11:51:24.241Z",
+                "updatedAt": "2023-08-15T11:51:24.241Z",
+                "__v": 0
+            }
+        ]
+    }
+}
+
 
 
 
