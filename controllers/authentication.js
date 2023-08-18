@@ -26,12 +26,15 @@ const SendToken = (user, res, statusCode) => {
 // user sign up controller
 exports.signUp = async (req, res, next) => {
     try{
+
+        const date = new Date().getTime(req.body.dateOfBirth)
         const user = await Users.create({
             fullname: req.body.fullname,
             username: req.body.username,
             password: req.body.password,
+            passwordConfirm: req.body.passwordConfirm,
             contact: req.body.contact,
-            dateOfBirth: req.body.dateOfBirth
+            dateOfBirth: date
         });
 
         user.password = undefined;

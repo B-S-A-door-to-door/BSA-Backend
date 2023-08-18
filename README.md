@@ -85,6 +85,7 @@ base_URL/api/bsa/signUp
     "fullname": "Jerome Akumasi",
     "username" : "Jerome23",
     "password" : "jerome1234",
+    "passwordConfirm": "jerome1234",
     "contact" : "0247558944",
     "dateOfBirth" : "2023-08-12T23:14:15.266Z"
 }
