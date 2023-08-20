@@ -356,6 +356,34 @@
 }
 ```
 
+# DASHBOARD API DOCUMENTATION
+
+### Get total number of workers (GET request : base_URL/api/bsa/dashboard/workers)
+
+- sample output
+
+```bash
+{
+    "status": "Success",
+    "message": "Successfully retrieved number of workers",
+    "result": 4
+}
+```
+
+
+### Get total number of invoices generated (GET request : base_URL/api/bsa/dashboard/invoices)
+
+-sample output
+
+```bash
+{
+    "status": "Success",
+    "message": "Successfully retrieved total number of invoices",
+    "results": 2
+}
+```
+
+
 
 
 

@@ -118,3 +118,32 @@ exports.deleteUser = async (req, res, next) => {
         next(error)
     }
 }
+
+// get total number of workers
+exports.getTotalNumberOfWorkers = async(req, res, next) => {
+    try{
+        const result = await Users.find({isAdmin : false})
+
+        if(result){
+            return res.status(200).json({
+                status: "Success",
+                message: "Successfully retrieved number of workers",
+                results: result.length
+            })
+        }
+
+        return res.status(400).json({
+            status : "Fail",
+            message: "No user found"
+        })
+              
+
+    }catch(error){
+        res.status(500).json({
+            status: "Error",
+            message: "An Error occured, try again."
+        })
+        next(error)
+    }
+
+}

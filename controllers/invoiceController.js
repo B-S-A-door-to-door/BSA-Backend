@@ -139,3 +139,32 @@ exports.getWorkerInvoices= async(req, res, next) => {
     }
 
 }
+
+// get total number of invoices
+exports.getTotalNumberOfInvoices = async(req, res, next) => {
+    try{
+        const result = await Invoices.find();
+
+        if(result){
+            return res.status(200).json({
+                status: "Success",
+                message: "Successfully retrieved total number of invoices",
+                results: result.length,
+            })
+        }
+
+        return res.status(404).json({
+            status : "Fail",
+            message: "No invoice found"
+        })
+              
+
+    }catch(error){
+        res.status(500).json({
+            status: "Error",
+            message: "An Error occured, try again."
+        })
+        next(error)
+    }
+
+}
