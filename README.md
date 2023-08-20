@@ -280,6 +280,82 @@
 }
 ```
 
+### Get worker's invoice enpoint (GET request : base_URL/api/bsa/getWorkerInvoices/:username)
+
+- Sample output
+
+```bash
+{
+    "status": "Success",
+    "message": "Successfully retrieved Andy's invoice",
+    "results": 2,
+    "data": {
+        "result": [
+            {
+                "_id": "64e27705ed7a50db84b6a6a4",
+                "username": "Andy",
+                "refNumber": "001",
+                "senderName": "Yeboah Andrews",
+                "senderContact": "0247668944",
+                "senderLocation": "Manchester",
+                "receiverName": "Wilson Aballey",
+                "receiverContact": "0203232764",
+                "receiverLocation": "Accra, Ghana",
+                "items": [
+                    {
+                        "item": "iphone 13 pro max",
+                        "description": "A slightly used iphone 6s with no cracks",
+                        "quantity": 2,
+                        "price": 400,
+                        "_id": "64e27705ed7a50db84b6a6a5"
+                    },
+                    {
+                        "item": "Samsung Television",
+                        "description": "Fresh in box",
+                        "quantity": 1,
+                        "price": 200,
+                        "_id": "64e27705ed7a50db84b6a6a6"
+                    }
+                ],
+                "createdAt": "2023-08-20T20:26:45.573Z",
+                "updatedAt": "2023-08-20T20:26:45.573Z",
+                "__v": 0
+            },
+            {
+                "_id": "64e27e543e33bd6553b2aac9",
+                "username": "Andy",
+                "refNumber": "002",
+                "senderName": "Yeboah Andrews",
+                "senderContact": "0247668944",
+                "senderLocation": "Manchester",
+                "receiverName": "Wilson Aballey",
+                "receiverContact": "0203232764",
+                "receiverLocation": "Accra, Ghana",
+                "items": [
+                    {
+                        "item": "iphone 13 pro max",
+                        "description": "A slightly used iphone 6s with no cracks",
+                        "quantity": 2,
+                        "price": 400,
+                        "_id": "64e27e543e33bd6553b2aaca"
+                    },
+                    {
+                        "item": "Samsung Television",
+                        "description": "Fresh in box",
+                        "quantity": 1,
+                        "price": 200,
+                        "_id": "64e27e543e33bd6553b2aacb"
+                    }
+                ],
+                "createdAt": "2023-08-20T20:57:56.034Z",
+                "updatedAt": "2023-08-20T20:57:56.034Z",
+                "__v": 0
+            }
+        ]
+    }
+}
+```
+
 
 
 

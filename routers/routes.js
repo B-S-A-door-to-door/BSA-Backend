@@ -11,16 +11,18 @@ router.post("/signIn", authentication.signIn)
 
 
 //users routes 
-router.get("/getAllUsers", userscontroller.getAllUsers )
-router.get("/getUser/:username", userscontroller.getUserDetails)
-router.patch("/updateUser/:username", userscontroller.updateUser)
-router.delete("/deleteUser/:username", userscontroller.deleteUser)
+router.get("/getAllUsers", authentication.protect,userscontroller.getAllUsers )
+router.get("/getUser/:username", authentication.protect,userscontroller.getUserDetails)
+router.patch("/updateUser/:username", authentication.protect,userscontroller.updateUser)
+router.delete("/deleteUser/:username", authentication.protect,userscontroller.deleteUser)
 
 // invoices routes
-router.post("/generateInvoice", invoiceController.generateInvoice )
-router.get("/getAllInvoices", invoiceController.getAllInvoices)
-router.get("/getInvoiceDetails/:refNumber", invoiceController.getInvoiceDetails)
+router.post("/generateInvoice", authentication.protect,invoiceController.generateInvoice )
+router.get("/getAllInvoices", authentication.protect,invoiceController.getAllInvoices)
+router.get("/getInvoiceDetails/:refNumber", authentication.protect,invoiceController.getInvoiceDetails)
+router.get("/getWorkerInvoices/:username", authentication.protect,invoiceController.getWorkerInvoices)
 
+// dashboard routes
 
 
 module.exports = router;

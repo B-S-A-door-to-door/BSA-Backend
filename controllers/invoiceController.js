@@ -34,7 +34,6 @@ exports.generateInvoice = async(req, res, next) => {
         })
 
     }catch(error){
-        console.log("An error occured, try again")
         res.status(500).json({
             status: 'error',
             message : "An error occured, try again"
@@ -47,8 +46,10 @@ exports.generateInvoice = async(req, res, next) => {
 // get all invoices 
 exports.getAllInvoices = async(req, res, next) => {
     try{
-        const offset = req.params.skip * req.params.limit;
-        const result = await Invoices.find().skip(offset).limit(req.params.limit);
+        const skip = req.params.skip
+        const limit = req.params.limit
+        const offset = skip * limit;
+        const result = await Invoices.find().skip(offset).limit(limit);
 
         if(result){
             return res.status(200).json({
@@ -82,7 +83,7 @@ exports.getInvoiceDetails= async(req, res, next) => {
     try{
         const result = await Invoices.find({refNumber: req.params.refNumber})
 
-        if(result){
+        if(result.length !== 0){
             return res.status(200).json({
                 status: "Success",
                 message: "Successfully retrieved invoice details",
@@ -91,10 +92,41 @@ exports.getInvoiceDetails= async(req, res, next) => {
                 }
             })
         }
-
         return res.status(400).json({
             status : "Fail",
             message: "No invoice found"
+        })
+              
+
+    }catch(error){
+        res.status(500).json({
+            status: "Error",
+            message: "An Error occured, try again."
+        })
+        next(error)
+    }
+
+}
+
+
+// get worker's invoices
+exports.getWorkerInvoices= async(req, res, next) => {
+    try{
+        const result = await Invoices.find({username: req.params.username})
+
+        if(result.length !== 0){
+            return res.status(200).json({
+                status: "Success",
+                message: `Successfully retrieved ${req.params.username}'s invoice`,
+                results: result.length,
+                data : {
+                    result
+                }
+            })
+        }
+
+        return res.status(400).json({
+            message: `No invoice found for ${req.params.username}`
         })
               
 

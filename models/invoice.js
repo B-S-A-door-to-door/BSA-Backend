@@ -37,14 +37,24 @@ const userSchema = new mongoose.Schema({
     },
     items : [
 		{
-			item : String,
-			description : String,
-            quantity : Number,
-            price : Number
+			item : {
+                    type: String,
+                    required: true,
+                    },
+			description : {
+                    type: String,
+                    required : true
+                    },
+            quantity : {
+                    type: Number,
+                    required : true
+                    },
+            price : {
+                    type:Number,
+                     required: true
+                    }
 		}
 	]
-
-	
 }, { timestamps: true })
 
 

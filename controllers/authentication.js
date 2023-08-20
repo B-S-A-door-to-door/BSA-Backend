@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/users')
+const { promisify } = require('util')
+const AppError = require("../Util/appError");
+const catchAsync = require("../Util/catchAsync")
 
 // signs token for authentication
 const SignToken = (id) => {
@@ -86,8 +89,8 @@ exports.signIn = async(req, res, next) =>{
     }
 }
 
-// protect routes
-exports.protect = (async (req, res, next) => {
+exports.protect = catchAsync(async (req, res, next) => {
+
     // get token and check if it's there
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -96,22 +99,22 @@ exports.protect = (async (req, res, next) => {
 
     // checks validity of the token
     if (!token) {
-        res.status(401).json({status: "Fail", message: "You are not logged in. Please Log in to get access"})
-        return next()
-        // return next(new AppError('You are not logged in.Please Log in to get access', 401))
+        return next(new AppError('You are not logged in.Please Log in to get access', 401))
     };
 
     // verifying token/ decodes token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     //checking if user still exist
-    const currentUser = await model.findById(decoded.id)
+    const currentUser = await Users.findById(decoded.id)
     if (!currentUser) {
-        res.status(400).json({status: "Fail", message: "User with this token does no longer exist"})
-        return next();
-        // return next(new AppError('User with this token does no longer exist', 401))
+        return next(new AppError('User with this token does no longer exist', 401))
     };
+
     // grants access to protected routes
     req.user = currentUser;
     next()
 })
+
+
+
