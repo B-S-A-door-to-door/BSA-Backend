@@ -5,13 +5,13 @@ const AppError = require("../Util/appError");
 const catchAsync = require("../Util/catchAsync")
 
 // signs token for authentication
-const SignToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY })
+const SignToken = (id, orgId, username) => {
+    return jwt.sign({ id, orgId, username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY })
 }
 
 // function for sending token on login
 const SendToken = (user, res, statusCode) => {
-    const token = SignToken(user._id)
+    const token = SignToken(user._id, user.orgId, user.username)
 
 
     res.status(statusCode).json({
@@ -115,6 +115,17 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.user = currentUser;
     next()
 })
+
+
+// restrict access to certain routes
+exports.restrictTo = (req, res, next) => {
+        if (!req.user.isAdmin){
+            return next(new AppError("You do not have permission to perform this action", 403))
+        }
+        next()
+    }
+
+
 
 
 

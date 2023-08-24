@@ -1,11 +1,12 @@
 const Invoices = require("../models/invoice")
+const Users = require("../models/users")
 
 
 // Creates new invoice 
 exports.generateInvoice = async(req, res, next) => {
     try{
         const results = await Invoices.create({
-            username : req.body.username,
+            username : req.user.username,
             refNumber : req.body.refNumber,
             senderName : req.body.senderName,
             senderContact: req.body.senderContact,
@@ -24,7 +25,13 @@ exports.generateInvoice = async(req, res, next) => {
                     invoice : results
                 }
             })
+        const worker = await Users.find({username : req.user.username})
 
+
+        if(worker){
+            worker[0].invoices.push(results._id)
+            await worker[0].save({validateBeforeSave: false})
+        }
             return
         }
 
@@ -141,15 +148,24 @@ exports.getWorkerInvoices= async(req, res, next) => {
 }
 
 // get total number of invoices
-exports.getTotalNumberOfInvoices = async(req, res, next) => {
+exports.getDashboardData = async(req, res, next) => {
     try{
-        const result = await Invoices.find();
+        const invoicesData = await Invoices.find();
+        const workersData = await Users.find();
+        workersData.sort((a, b) => b.invoices.length - a.invoices.length);
 
-        if(result){
+        // Get the top three workers
+        const topThreeWorkers = workersData.slice(0, 3);
+
+
+
+        if(invoicesData || workersData){
             return res.status(200).json({
                 status: "Success",
-                message: "Successfully retrieved total number of invoices",
-                results: result.length,
+                message: "Successfully dashboard data",
+                invoices: invoicesData.length,
+                workers : workersData.length,
+                topThreeWorkers
             })
         }
 
@@ -168,3 +184,6 @@ exports.getTotalNumberOfInvoices = async(req, res, next) => {
     }
 
 }
+
+
+

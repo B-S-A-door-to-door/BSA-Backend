@@ -38,6 +38,11 @@ const userSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
+	orgId : {
+		type: String,
+		default: "01"
+	},
+	invoices : [String],
 	dateOfBirth : Number,
 }, { timestamps: true })
 

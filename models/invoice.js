@@ -2,14 +2,19 @@ const mongoose = require('mongoose');
 
 
 
-const userSchema = new mongoose.Schema({
-    username : {
+const invoiceSchema = new mongoose.Schema({
+    orgId : {
         type: String,
-        required : true
+        default: "01"
+    },
+    username: {
+        type: String, 
+        required: true
     },
     refNumber : {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     senderName : {
         type: String,
@@ -59,6 +64,6 @@ const userSchema = new mongoose.Schema({
 
 
 
-const Invoices = mongoose.model("Invoices", userSchema);
+const Invoices = mongoose.model("Invoices", invoiceSchema);
 
 module.exports = Invoices;
