@@ -3,6 +3,8 @@ const Users = require('../models/users')
 const { promisify } = require('util')
 const AppError = require("../Util/appError");
 const catchAsync = require("../Util/catchAsync")
+const bcrypt = require('bcryptjs');
+
 
 // signs token for authentication
 const SignToken = (id, orgId, username) => {
@@ -27,9 +29,7 @@ const SendToken = (user, res, statusCode) => {
 
 
 // user sign up controller
-exports.signUp = async (req, res, next) => {
-    try{
-
+exports.signUp = catchAsync (async (req, res, next) => {
         const date = new Date().getTime(req.body.dateOfBirth)
         const user = await Users.create({
             fullname: req.body.fullname,
@@ -49,12 +49,9 @@ exports.signUp = async (req, res, next) => {
                 user
             }
         })
-    }catch(error){
-        res.status(400).json({status: "fail", message: "An error occured"})
-        next(error)
-    }
+   
 
-    }
+    })
 
 // user sign in controller
 exports.signIn = async(req, res, next) =>{
@@ -64,6 +61,7 @@ exports.signIn = async(req, res, next) =>{
         // checks if username and password are provided
         if (!username || !password) {
             return res.status(400).json({
+                status: "fail",
                 message: "Please provide username and password"
             })
         }
@@ -72,6 +70,7 @@ exports.signIn = async(req, res, next) =>{
 
         if (!user || !(await user.correctPassword(password, user.password))) {
             return res.status(400).json({
+                status: "fail",
                 message: "Wrong password or User does not exist. Please Try again"
             })
         }
@@ -87,7 +86,54 @@ exports.signIn = async(req, res, next) =>{
         next(error)
         console.log("An error occured, try again.")
     }
+
 }
+
+exports.resetAdminPassword = catchAsync(async (req, res, next) => {
+    const {oldPassword} = req.body
+
+    const currentUser = await Users.findOne({ username : req.user.username }).select('+password');
+
+    if (!currentUser || !(await currentUser.correctPassword(oldPassword, currentUser.password))) {
+        return res.status(400).json({
+            status: "fail",
+            message: "The input password does not match the old password. Please Try again"
+        })
+    }
+
+    const password = await bcrypt.hash(req.body.password, 12);
+
+    const updated = {
+        username: req.body.username,
+        password,
+        fullname: req.body.fullname,
+    }
+
+
+    const user = await Users.findOneAndUpdate({username : currentUser.username }, updated, {
+        new: true,
+        runValidators: true
+    })
+
+    if(!user){
+        return res.status(404).json({
+            status: "fail",
+            message: "Failed to update admin details"
+        })
+    }
+    await user.save({validateBeforeSave: true})
+
+    res.status(200).json({
+        status: "success",
+        message: "Successfully updated admin details.",
+        data : {
+            user
+        }
+})
+
+
+    next()
+})
 
 exports.protect = catchAsync(async (req, res, next) => {
 
@@ -124,6 +170,9 @@ exports.restrictTo = (req, res, next) => {
         }
         next()
     }
+
+
+
 
 
 

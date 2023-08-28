@@ -3,7 +3,7 @@ const Users = require("../models/users")
 
 // get all users
 exports.getAllUsers = async(req, res, next) => {
-    try{
+    try{    
         const offset = req.params.skip * req.params.limit;
         const result = await Users.find().skip(offset).limit(req.params.limit);
 

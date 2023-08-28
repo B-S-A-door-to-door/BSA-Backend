@@ -8,6 +8,7 @@ const router = express.Router();
 // authentication routes
 router.post("/admin/signUp",authentication.signUp)
 router.post("/signIn", authentication.signIn)
+router.patch("/admin/resetAdminPassword", authentication.protect, authentication.restrictTo, authentication.resetAdminPassword)
 
 
 //users routes 

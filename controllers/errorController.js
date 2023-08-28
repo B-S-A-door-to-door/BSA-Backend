@@ -33,7 +33,7 @@ const handleCastErrorDB = err => {
 
 // handles errors with duplicate fields in the database
 const handleDuplicatesDB = () => {
-    const message = `Duplicate field value. Please use another value!`
+    const message = `Username already exists. Please use another value!`
     return new AppError(message, 400)
 }
 

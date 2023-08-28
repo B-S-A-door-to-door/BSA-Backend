@@ -37,12 +37,12 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', async function(next){
 	// checks if password is not modified
 	if(!this.isModified('password')) return next();
 
 	// encrypts password
-	this.password = bcrypt.hash(this.password, 12);
+	this.password = await bcrypt.hash(this.password, 12);
 
 	next()
 })
