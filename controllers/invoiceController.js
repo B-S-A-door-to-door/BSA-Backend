@@ -60,7 +60,7 @@ exports.getAllInvoices = async(req, res, next) => {
 
         if(result){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: "Successfully retrieved invoices",
                 results : result.length,
                 data : {
@@ -70,14 +70,14 @@ exports.getAllInvoices = async(req, res, next) => {
         }
 
         return res.status(404).json({
-            status : "Fail",
+            status : "fail",
             message: "No invoice found"
         })
               
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)
@@ -92,7 +92,7 @@ exports.getInvoiceDetails= async(req, res, next) => {
 
         if(result.length !== 0){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: "Successfully retrieved invoice details",
                 data : {
                     result
@@ -100,14 +100,14 @@ exports.getInvoiceDetails= async(req, res, next) => {
             })
         }
         return res.status(400).json({
-            status : "Fail",
+            status : "fail",
             message: "No invoice found"
         })
               
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)
@@ -123,7 +123,7 @@ exports.getWorkerInvoices= async(req, res, next) => {
 
         if(result.length !== 0){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: `Successfully retrieved ${req.params.username}'s invoice`,
                 results: result.length,
                 data : {
@@ -139,7 +139,7 @@ exports.getWorkerInvoices= async(req, res, next) => {
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)
@@ -161,7 +161,7 @@ exports.getDashboardData = async(req, res, next) => {
 
         if(invoicesData || workersData){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: "Successfully dashboard data",
                 invoices: invoicesData.length,
                 workers : workersData.length,
@@ -170,14 +170,14 @@ exports.getDashboardData = async(req, res, next) => {
         }
 
         return res.status(404).json({
-            status : "Fail",
+            status : "fail",
             message: "No invoice found"
         })
               
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)

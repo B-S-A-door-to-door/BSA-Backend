@@ -5,7 +5,7 @@
 - sample output
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully retrieved users",
     "results": 2,
     "data": {
@@ -43,7 +43,7 @@
 
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully retrieved user details",
     "data": {
         "result": [
@@ -72,14 +72,13 @@
     "fullname": "Jerome Akumasi",
     "username" : "Jerome23",
     "password" : "jerome1234",
-    "passwordConfirm" : "jerome1234"
 }
 ```
 
 ### Delete User Endpoint (DELETE REQUEST: base_URL/api/bsa/admin/deleteUser/:username)
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "User deleted successfully"
 }
 ```
@@ -92,7 +91,6 @@
     "fullname": "Jerome Akumasi",
     "username" : "Jerome23",
     "password" : "jerome1234",
-    "passwordConfirm": "jerome1234",
     "contact" : "0247558944",
     "dateOfBirth" : "2023-08-12T23:14:15.266Z"
 }
@@ -246,7 +244,7 @@ same as updating a user
 
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully retrieved invoices",
     "results": 12,
     "data": {
@@ -634,7 +632,7 @@ same as updating a user
 
 ```bash
    {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully retrieved invoice details",
     "data": {
         "result": [
@@ -711,7 +709,7 @@ same as updating a user
 
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully retrieved Andy's invoice",
     "results": 6,
     "data": {
@@ -915,7 +913,7 @@ same as updating a user
 
 ```bash
 {
-    "status": "Success",
+    "status": "success",
     "message": "Successfully dashboard data",
     "invoices": 12,
     "workers": 4,
@@ -977,17 +975,7 @@ same as updating a user
 ```
 
 
-### Get total number of invoices generated (GET request : base_URL/api/bsa/admin/dashboard/invoices)
 
--sample output
-
-```bash
-{
-    "status": "Success",
-    "message": "Successfully retrieved total number of invoices",
-    "results": 2
-}
-```
 
 
 

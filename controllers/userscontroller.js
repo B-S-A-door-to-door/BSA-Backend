@@ -9,7 +9,7 @@ exports.getAllUsers = async(req, res, next) => {
 
         if(result){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: "Successfully retrieved users",
                 results : result.length,
                 data : {
@@ -19,14 +19,14 @@ exports.getAllUsers = async(req, res, next) => {
         }
 
         return res.status(400).json({
-            status : "Fail",
+            status : "fail",
             message: "No user found"
         })
               
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)
@@ -41,7 +41,7 @@ exports.getUserDetails = async(req, res, next) => {
 
         if(result){
             return res.status(200).json({
-                status: "Success",
+                status: "success",
                 message: "Successfully retrieved user details",
                 data : {
                     result
@@ -50,14 +50,14 @@ exports.getUserDetails = async(req, res, next) => {
         }
 
         return res.status(400).json({
-            status : "Fail",
+            status : "fail",
             message: "No user found"
         })
               
 
     }catch(error){
         res.status(500).json({
-            status: "Error",
+            status: "error",
             message: "An Error occured, try again."
         })
         next(error)
@@ -78,7 +78,7 @@ exports.updateUser = async (req, res, next) => {
     
         if(!user){
             return res.status(404).json({
-                status: "Fail",
+                status: "fail",
                 message: "User does not exist"
             })
         }
@@ -112,7 +112,7 @@ exports.deleteUser = async (req, res, next) => {
         }
 
         return res.status(202).json({
-            status: "Success",
+            status: "success",
             message: "User deleted successfully"
         })
     }catch(error){

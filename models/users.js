@@ -20,16 +20,6 @@ const userSchema = new mongoose.Schema({
 		minlength: 4,
 		select: false
 	},
-	passwordConfirm : {
-		type: String,
-		required: [true, 'Provide password confirmation'],
-		validate : {
-			validator: function(el){
-				return el === this.password;
-			},
-			message: 'Password mismatch'
-		}
-	},
 	contact : {
 		type : String,
 		required: [false, 'Contact is required'],
@@ -47,14 +37,13 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-userSchema.pre('save', async function(next){
+userSchema.pre('save', function(next){
 	// checks if password is not modified
 	if(!this.isModified('password')) return next();
 
 	// encrypts password
-	this.password = await bcrypt.hash(this.password, 12);
+	this.password = bcrypt.hash(this.password, 12);
 
-	this.passwordConfirm = undefined
 	next()
 })
 

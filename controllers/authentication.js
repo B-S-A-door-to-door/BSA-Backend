@@ -50,7 +50,7 @@ exports.signUp = async (req, res, next) => {
             }
         })
     }catch(error){
-        res.status(400).json({status: "Fail", message: "An error occured"})
+        res.status(400).json({status: "fail", message: "An error occured"})
         next(error)
     }
 
