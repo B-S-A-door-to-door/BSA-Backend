@@ -84,7 +84,6 @@ exports.signIn = async(req, res, next) =>{
 
     }catch(error){
         next(error)
-        console.log("An error occured, try again.")
     }
 
 }

@@ -133,6 +133,7 @@ exports.getWorkerInvoices= async(req, res, next) => {
         }
 
         return res.status(400).json({
+            status: 'fail',
             message: `No invoice found for ${req.params.username}`
         })
               
@@ -162,7 +163,7 @@ exports.getDashboardData = async(req, res, next) => {
         if(invoicesData || workersData){
             return res.status(200).json({
                 status: "success",
-                message: "Successfully dashboard data",
+                message: "Successfully retrieved dashboard data",
                 invoices: invoicesData.length,
                 workers : workersData.length,
                 topThreeWorkers
@@ -171,7 +172,7 @@ exports.getDashboardData = async(req, res, next) => {
 
         return res.status(404).json({
             status : "fail",
-            message: "No invoice found"
+            message: "Failed whiles retrieving dashboard data"
         })
               
 

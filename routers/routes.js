@@ -6,7 +6,7 @@ const invoiceController = require("../controllers/invoiceController")
 const router = express.Router();
 
 // authentication routes
-router.post("/admin/signUp",authentication.signUp)
+router.post("/admin/signUp",authentication.protect,authentication.restrictTo,authentication.signUp)
 router.post("/signIn", authentication.signIn)
 router.patch("/admin/resetAdminPassword", authentication.protect, authentication.restrictTo, authentication.resetAdminPassword)
 

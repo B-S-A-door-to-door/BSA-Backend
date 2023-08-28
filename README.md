@@ -2,7 +2,7 @@
 
 ### Get all users endpoint (GET REQUEST: base_URL/api/bsa/admin/getAllUsers)
 
-- sample output
+- sample output(success)
 ```bash
 {
     "status": "success",
@@ -37,6 +37,14 @@
 }
 ```
 
+-sample output(fail)
+```bash
+{
+    status : "fail",
+    message: "No user found"
+}
+```
+
 ### Get UserDetails Endpoint (GET REQUEST: base_URL/api/bsa/getUser/:username)
 
 -Sample output
@@ -63,6 +71,14 @@
 }
 ```
 
+-sample output(fail)
+```bash
+{
+    status : "fail",
+    message: "No user found"
+}
+```
+
 ### Update User Endpoint (PATCH REQUEST: base_URL/api/bsa/admin/updateUser/:username)
 
 -sample body
@@ -75,12 +91,62 @@
 }
 ```
 
+-sample output (success)
+```bash
+{
+    "status": "success",
+    "data": {
+        "user": {
+            "_id": "64e7348f00c44c6578978806",
+            "fullname": "Jerome Akumasi",
+            "username": "Jerome",
+            "contact": "0247668344",
+            "isAdmin": false,
+            "orgId": "01",
+            "invoices": [
+                "64e737e79b91d0e766005dcd",
+                "64e737fb9b91d0e766005dd5",
+                "64e7383a9b91d0e766005ddd"
+            ],
+            "dateOfBirth": 1692873871744,
+            "createdAt": "2023-08-24T10:44:31.770Z",
+            "updatedAt": "2023-08-28T18:36:16.834Z",
+            "__v": 3
+        }
+    }
+}
+```
+
+-sample output (fail)
+```bash
+{
+    status: "fail",
+    message: "User does not exist"
+}
+
+{
+    "status": "fail",
+    "message": "Username already exists. Please use another value!"
+}
+```
+
 ### Delete User Endpoint (DELETE REQUEST: base_URL/api/bsa/admin/deleteUser/:username)
+
+-sample output (success)
 ```bash
 {
     "status": "success",
     "message": "User deleted successfully"
 }
+
+```
+
+-sample output (fail)
+```bash
+    {
+        status: "fail",
+        message: "User does not exist"
+    }
 ```
 
 ### Create new user Endpoint (POST REQUEST: base_URL/api/bsa/admin/signUp)
@@ -96,7 +162,7 @@
 }
 ```
 
--sample output
+-sample output (success)
 ```bash
 {
     "status": "success",
@@ -118,12 +184,77 @@
     }
 }
 
+
 ```
 
-### Update Admin Data endpoint (.....IN PROGRESS)
+-sample output (fail)
 ```bash
-same as updating a user
+{
+    "status": "fail",
+    "message": "Username already exists. Please use another value!"
+}
 ```
+
+### Update Admin Data endpoint (PATCH REQUEST : base_URL/api/bsa/admin/resetAdminPassword)
+
+- sample body 
+```bash
+{
+    "oldPassword" : "1234andy",
+    "password" : "andy1234",
+    "fullname" : "Yeboah Andrews",
+    "username" : "Andrews"
+}
+```
+
+- sample output(success)
+```bash
+{
+    "status": "success",
+    "message": "Successfully updated admin details.",
+    "data": {
+        "user": {
+            "_id": "64ecdff24406094356e3e847",
+            "fullname": "Yeboah Andrews",
+            "username": "Andrews",
+            "contact": "0247668344",
+            "isAdmin": true,
+            "orgId": "01",
+            "invoices": [],
+            "dateOfBirth": 1693245426100,
+            "createdAt": "2023-08-28T17:57:06.101Z",
+            "updatedAt": "2023-08-28T18:05:15.826Z",
+            "__v": 0
+        }
+    }
+}
+```
+
+-sample output (fail)
+```bash
+{
+    "status": "fail",
+    "message": "Invalid token. Please log in again"
+}
+
+{
+    "status": "fail",
+    "message": "The input password does not match the old password. Please Try again"
+}
+
+{
+    "status": "fail",
+    "message": "Username already exists. Please use another value!"
+}
+
+{
+    "status" : "fail",
+    "message" : "You do not have permission to perform this action"
+}
+```
+
+
+
 
 ###  User SignIn Endpoint (POST REQUEST: base_URL/api/bsa/signIn)
 
@@ -135,7 +266,7 @@ same as updating a user
 }
 ```
 
--sample output
+-sample output(success)
 ```bash
     {
     "status": "success",
@@ -160,6 +291,20 @@ same as updating a user
         "updatedAt": "2023-08-24T10:58:27.303Z",
         "__v": 5
     }
+}
+
+```
+
+-sample output(fail)
+```bash
+{
+    "status": "fail",
+    "message": "Wrong password or User does not exist. Please Try again"
+}
+
+{
+    "status": "fail",
+    "message": "Please provide username and password"
 }
 
 ```
@@ -196,6 +341,7 @@ same as updating a user
     ]
 }
 ```
+
 
 -sample output 
 ```bash
@@ -238,9 +384,18 @@ same as updating a user
 }
 ```
 
+-sample output (fail) 
+```bash
+{
+    status:"fail",
+    message : "Invoice generation failed."
+}  
+```
+
+
 ### Get all invoices endpoint (GET REQUEST: base_URL/api/bsa/admin/getAllInvoices)
 
--sample output
+-sample output (success)
 
 ```bash
 {
@@ -626,9 +781,17 @@ same as updating a user
 }
 ```
 
+- sample output (fail)
+```bash
+{
+    status : "fail",
+    message: "No invoice found"
+}
+```
+
 ### Get invoice details enpoint (GET request : base_URL/api/bsa/getInvoiceDetails/:refNumber)
 
-- Sample output
+- Sample output (success)
 
 ```bash
    {
@@ -703,9 +866,18 @@ same as updating a user
 }
 ```
 
+-sample output (fail)
+```bash
+{
+    status : "fail",
+    message: "No invoice found"
+}
+```
+
+
 ### Get worker's invoice enpoint (GET request : base_URL/api/bsa/getWorkerInvoices/:username)
 
-- Sample output
+- Sample output(success)
 
 ```bash
 {
@@ -905,16 +1077,24 @@ same as updating a user
 }
 ```
 
+- sample output (fail)
+```bash
+{
+    status: 'fail',
+    message: `No invoice found for ${req.params.username}`
+ }
+```
+
 # DASHBOARD API DOCUMENTATION
 
 ### Get dashboard data (GET request : base_URL/api/bsa/admin/dashboard)
 
-- sample output
+- sample output (success)
 
 ```bash
 {
     "status": "success",
-    "message": "Successfully dashboard data",
+    "message": "Successfully retrieved dashboard data",
     "invoices": 12,
     "workers": 4,
     "topThreeWorkers": [
@@ -974,7 +1154,23 @@ same as updating a user
 }
 ```
 
+-sample output(fail)
+```bash
+{
+    status : "fail",
+    message: "Failed whiles retrieving dashboard data"
+}
+```
 
+
+
+## Sample output for all errors that might occur in the application
+```bash
+    {
+            status: "error",
+            message: "An Error occured, try again."
+    }
+```
 
 
 
