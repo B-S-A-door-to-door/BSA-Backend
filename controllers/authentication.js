@@ -35,9 +35,9 @@ exports.signUp = catchAsync (async (req, res, next) => {
             fullname: req.body.fullname,
             username: req.body.username,
             password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm,
             contact: req.body.contact,
-            dateOfBirth: date
+            dateOfBirth: date,
+            orgId: req.user.orgId
         });
 
         user.password = undefined;

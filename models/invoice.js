@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const invoiceSchema = new mongoose.Schema({
     orgId : {
         type: String,
-        default: "01"
+        required: true
     },
     username: {
         type: String, 

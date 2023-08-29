@@ -8,6 +8,7 @@ exports.generateInvoice = async(req, res, next) => {
         const results = await Invoices.create({
             username : req.user.username,
             refNumber : req.body.refNumber,
+            orgId : req.user.orgId,
             senderName : req.body.senderName,
             senderContact: req.body.senderContact,
             senderLocation: req.body.senderLocation,
@@ -56,7 +57,7 @@ exports.getAllInvoices = async(req, res, next) => {
         const skip = req.params.skip
         const limit = req.params.limit
         const offset = skip * limit;
-        const result = await Invoices.find().skip(offset).limit(limit);
+        const result = await Invoices.find({orgId : req.user.orgId}).skip(offset).limit(limit);
 
         if(result){
             return res.status(200).json({
@@ -88,7 +89,7 @@ exports.getAllInvoices = async(req, res, next) => {
 // get invoice details
 exports.getInvoiceDetails= async(req, res, next) => {
     try{
-        const result = await Invoices.find({refNumber: req.params.refNumber})
+        const result = await Invoices.find({refNumber: req.params.refNumber, orgId: req.user.orgId})
 
         if(result.length !== 0){
             return res.status(200).json({
@@ -119,7 +120,7 @@ exports.getInvoiceDetails= async(req, res, next) => {
 // get worker's invoices
 exports.getWorkerInvoices= async(req, res, next) => {
     try{
-        const result = await Invoices.find({username: req.params.username})
+        const result = await Invoices.find({username: req.params.username, orgId: req.user.orgId})
 
         if(result.length !== 0){
             return res.status(200).json({
@@ -151,8 +152,8 @@ exports.getWorkerInvoices= async(req, res, next) => {
 // get total number of invoices
 exports.getDashboardData = async(req, res, next) => {
     try{
-        const invoicesData = await Invoices.find();
-        const workersData = await Users.find();
+        const invoicesData = await Invoices.find({orgId : req.user.orgId});
+        const workersData = await Users.find({orgId: req.user.orgId});
         workersData.sort((a, b) => b.invoices.length - a.invoices.length);
 
         // Get the top three workers

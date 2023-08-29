@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
 	},
 	orgId : {
 		type: String,
-		default: "01"
+		required: true
 	},
 	invoices : [String],
 	dateOfBirth : Number,

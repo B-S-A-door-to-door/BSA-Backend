@@ -5,7 +5,7 @@ const Users = require("../models/users")
 exports.getAllUsers = async(req, res, next) => {
     try{    
         const offset = req.params.skip * req.params.limit;
-        const result = await Users.find().skip(offset).limit(req.params.limit);
+        const result = await Users.find({isAdmin: false, orgId: req.user.orgId}).skip(offset).limit(req.params.limit);
 
         if(result){
             return res.status(200).json({
@@ -37,7 +37,7 @@ exports.getAllUsers = async(req, res, next) => {
 // get user details
 exports.getUserDetails = async(req, res, next) => {
     try{
-        const result = await Users.find({username: req.params.username})
+        const result = await Users.find({username: req.params.username, orgId: req.user.orgId})
 
         if(result){
             return res.status(200).json({
