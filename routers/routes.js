@@ -6,7 +6,7 @@ const invoiceController = require("../controllers/invoiceController");
 const router = express.Router();
 
 //  TEMP ROUTE FOR CRETING AN ADMIN
-router.get('/admin/create', userscontroller.createAdmin)
+router.get("/admin/create", userscontroller.createAdmin);
 
 // authentication routes
 router.post(
@@ -15,12 +15,14 @@ router.post(
   authentication.restrictTo,
   authentication.signUp
 );
+
 router.post("/signIn", authentication.signIn);
+
 router.patch(
-  "/admin/resetAdminPassword",
+  "/admin/settings",
   authentication.protect,
   authentication.restrictTo,
-  authentication.resetAdminPassword
+  authentication.settings
 );
 
 //users routes
@@ -62,8 +64,8 @@ router.get(
 );
 router.post(
   "/admin/downloadInvoices",
-//   authentication.protect,
-//   authentication.restrictTo,
+  //   authentication.protect,
+  //   authentication.restrictTo,
   invoiceController.downloadInvoices
 );
 router.get(
