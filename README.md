@@ -195,6 +195,17 @@
 }
 ```
 
+### Update Admin Settings (PATCH: base_URL/api/bsa/admin/settings)
+- request body
+```bash
+{
+    fullname,
+    username,
+    oldPassword,
+    newpassword,
+}
+```
+
 ### Update Admin Data endpoint (PATCH REQUEST : base_URL/api/bsa/admin/resetAdminPassword)
 
 - sample body 
