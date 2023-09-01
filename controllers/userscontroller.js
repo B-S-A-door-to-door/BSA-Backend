@@ -3,12 +3,12 @@ const Users = require("../models/users");
 // TEMP router
 exports.createAdmin = async (req, res, next) => {
   const newAdmin = await Users.create({
-    fullname: "DevMode Admin 10",
-    username: "devadmin_10",
+    fullname: "DevMode Admin 1",
+    username: "devadmin_1",
     password: 1234,
     contact: "0256723294",
     dateOfBirth: '2023-09-11',
-    orgId: "10",
+    orgId: "01",
     isAdmin: true,
   });
 
