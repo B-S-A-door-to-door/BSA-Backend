@@ -3,12 +3,12 @@ const Users = require("../models/users");
 // TEMP router
 exports.createAdmin = async (req, res, next) => {
   const newAdmin = await Users.create({
-    fullname: "DevMode Admin",
-    username: "devadmin3",
+    fullname: "DevMode Admin 10",
+    username: "devadmin_10",
     password: 1234,
     contact: "0256723294",
-    dateOfBirth: 1692872777193,
-    orgId: "01",
+    dateOfBirth: '2023-09-11',
+    orgId: "10",
     isAdmin: true,
   });
 
@@ -111,7 +111,6 @@ exports.updateUser = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       status: "error",
       message: "An error occured, try again.",
@@ -123,7 +122,6 @@ exports.updateUser = async (req, res, next) => {
 //delete user
 exports.deleteUser = async (req, res, next) => {
   try {
-    console.log("param: ", req.params.username);
     const results = await Users.deleteOne({
       username: req.params.username,
       orgId: req.user.orgId,
