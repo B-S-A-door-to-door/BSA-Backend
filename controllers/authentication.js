@@ -26,24 +26,30 @@ const SendToken = (user, res, statusCode) => {
 
 // user sign up controller
 exports.signUp = catchAsync(async (req, res, next) => {
-  const user = await Users.create({
-    fullname: req.body.fullname,
-    username: req.body.username,
-    password: req.body.password,
-    contact: req.body.contact,
-    dateOfBirth: req.body.dateOfBirth,
-    orgId: req.user.orgId,
-  });
+  try {
+    const user = await Users.create({
+      fullname: req.body.fullname,
+      username: req.body.username,
+      password: req.body.password,
+      contact: req.body.contact,
+      dateOfBirth: req.body.dateOfBirth,
+      orgId: req.user.orgId,
+    });
 
-  user.password = undefined;
+    user.password = undefined;
 
-  res.status(201).json({
-    status: "success",
-    message: "successfully added a new user",
-    data: {
-      user,
-    },
-  });
+    return res.status(201).json({
+      status: "success",
+      message: "successfully added a new user",
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    return res
+      .status(400)
+      .send({ status: "fail", message: "Couldn't create worker" });
+  }
 });
 
 // user sign in controller
@@ -78,11 +84,12 @@ exports.signIn = async (req, res, next) => {
   }
 };
 
-exports.resetAdminPassword = catchAsync(async (req, res, next) => {
-  const { oldPassword } = req.body;
+exports.settings = catchAsync(async (req, res, next) => {
+  const { fullname, username, oldPassword, newPassword } = req.body;
 
   const currentUser = await Users.findOne({
     username: req.user.username,
+    // orgId: req.user.orgId,
   }).select("+password");
 
   if (
@@ -91,25 +98,24 @@ exports.resetAdminPassword = catchAsync(async (req, res, next) => {
   ) {
     return res.status(400).json({
       status: "fail",
+      type: "password",
       message:
         "The input password does not match the old password. Please Try again",
     });
   }
 
-  const password = await bcrypt.hash(req.body.password, 12);
-
-  const updated = {
-    username: req.body.username,
-    password,
-    fullname: req.body.fullname,
+  const updates = {
+    fullname,
+    username,
+    password: newPassword,
   };
 
   const user = await Users.findOneAndUpdate(
-    { username: currentUser.username },
-    updated,
+    { username: req.user.username },
+    updates,
     {
       new: true,
-      runValidators: true,
+      // runValidators: true,
     }
   );
 
@@ -119,7 +125,6 @@ exports.resetAdminPassword = catchAsync(async (req, res, next) => {
       message: "Failed to update admin details",
     });
   }
-  await user.save({ validateBeforeSave: true });
 
   res.status(200).json({
     status: "success",
