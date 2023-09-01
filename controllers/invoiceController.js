@@ -102,7 +102,7 @@ exports.downloadInvoices = async (req, res) => {
       header: { height: "0mm" },
     };
 
-    const docSavePath = "C:/users/jerome akumasi/desktop/invoices.pdf";
+    const docSavePath = "/tmp/invoices.pdf";
     const document = {
       html: html,
       data: {

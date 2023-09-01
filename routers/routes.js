@@ -64,8 +64,8 @@ router.get(
 );
 router.post(
   "/admin/downloadInvoices",
-  //   authentication.protect,
-  //   authentication.restrictTo,
+    // authentication.protect,
+    // authentication.restrictTo,
   invoiceController.downloadInvoices
 );
 router.get(
