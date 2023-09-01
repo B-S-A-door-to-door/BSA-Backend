@@ -2,9 +2,9 @@ const Users = require("../models/users");
 
 // TEMP router
 exports.createAdmin = async (req, res, next) => {
-  const newAdmin = Users({
+  const newAdmin = await Users.create({
     fullname: "DevMode Admin",
-    username: "devadmin",
+    username: "devadmin3",
     password: 1234,
     contact: "0256723294",
     dateOfBirth: 1692872777193,
@@ -13,7 +13,7 @@ exports.createAdmin = async (req, res, next) => {
   });
 
   console.log(newAdmin);
-  await newAdmin.save();
+  // await newAdmin.save();
 
   return res.json({ status: "success" });
 };
@@ -85,13 +85,15 @@ exports.getUserDetails = async (req, res, next) => {
 
 //update user details
 exports.updateUser = async (req, res, next) => {
+  const password = req.body.password;
+  if (!password) req.body.password = undefined;
+
   try {
     const user = await Users.findOneAndUpdate(
-      { username: req.params.username },
+      { username: req.params.username, orgId: req.user.orgId },
       req.body,
       {
         new: true,
-        runValidators: true,
       }
     );
 
@@ -101,15 +103,15 @@ exports.updateUser = async (req, res, next) => {
         message: "User does not exist",
       });
     }
-    await user.save({ validateBeforeSave: true });
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       data: {
         user,
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: "error",
       message: "An error occured, try again.",
@@ -121,7 +123,11 @@ exports.updateUser = async (req, res, next) => {
 //delete user
 exports.deleteUser = async (req, res, next) => {
   try {
-    const results = await Users.deleteOne({ username: req.params.username });
+    console.log("param: ", req.params.username);
+    const results = await Users.deleteOne({
+      username: req.params.username,
+      orgId: req.user.orgId,
+    });
     if (results.deletedCount < 1) {
       return res.status(400).json({
         status: "fail",
