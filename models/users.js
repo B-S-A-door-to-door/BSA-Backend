@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 	invoices : [String],
-	dateOfBirth : Number,
+	dateOfBirth : String,
 }, { timestamps: true })
 
 

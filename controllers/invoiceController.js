@@ -57,6 +57,7 @@ exports.getAllInvoices = async (req, res, next) => {
     const limit = req.params.limit;
     const offset = skip * limit;
     const result = await Invoices.find({ orgId: req.user.orgId })
+      .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit);
 
@@ -84,7 +85,7 @@ exports.getAllInvoices = async (req, res, next) => {
   }
 };
 
-exports.downloadInvoices = async (req, res, next) => {
+exports.downloadInvoices = async (req, res) => {
   try {
     const invoices = req.body;
 
@@ -192,7 +193,10 @@ exports.getWorkerInvoices = async (req, res, next) => {
 exports.getDashboardData = async (req, res, next) => {
   try {
     const invoicesData = await Invoices.find({ orgId: req.user.orgId });
-    const workersData = await Users.find({ orgId: req.user.orgId });
+    const workersData = await Users.find({
+      orgId: req.user.orgId,
+      isAdmin: false,
+    });
     workersData.sort((a, b) => b.invoices.length - a.invoices.length);
 
     // Get the top three workers
