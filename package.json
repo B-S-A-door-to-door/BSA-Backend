@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "echo 'No build step required for backend'"
+    "build": "npm install && echo 'No build step required for backend'"
   },
   "keywords": [],
   "author": "",
