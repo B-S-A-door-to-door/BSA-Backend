@@ -193,14 +193,15 @@ exports.getWorkerInvoices = async (req, res, next) => {
 exports.getDashboardData = async (req, res, next) => {
   try {
     const invoicesData = await Invoices.find({ orgId: req.user.orgId });
-    const workersData = await Users.find({
+    let workersData = await Users.find({
       orgId: req.user.orgId,
       isAdmin: false,
     });
     workersData.sort((a, b) => b.invoices.length - a.invoices.length);
+    workersData = workersData.filter((worker) => worker.invoices.length !== 0);
 
-    // Get the top three workers
-    const topThreeWorkers = workersData.slice(0, 3);
+    // Get the top five workers
+    const topFiveWorkers = workersData.slice(0, 5);
 
     if (invoicesData || workersData) {
       return res.status(200).json({
@@ -208,7 +209,7 @@ exports.getDashboardData = async (req, res, next) => {
         message: "Successfully retrieved dashboard data",
         invoices: invoicesData.length,
         workers: workersData.length,
-        topThreeWorkers,
+        topFiveWorkers,
       });
     }
 
