@@ -104,6 +104,10 @@ exports.downloadInvoices = async (req, res) => {
     };
 
     const fileName = `invoice-${new Date().getTime()}.pdf`;
+    fs.mkdir("../tmp", (err) => {
+      if (err && process.env.NODE_ENV === "development")
+        console.log("could not delete file");
+    });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
 
     const document = {
