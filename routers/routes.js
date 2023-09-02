@@ -6,7 +6,7 @@ const invoiceController = require("../controllers/invoiceController");
 const router = express.Router();
 
 //  TEMP ROUTE FOR CRETING AN ADMIN
-router.get("/admin/create", userscontroller.createAdmin);
+// router.get("/admin/create", userscontroller.createAdmin);
 
 // authentication routes
 router.post(
