@@ -110,7 +110,7 @@ exports.downloadInvoices = async (req, res) => {
     });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
 
-    console.log(docSavePath);
+    console.log("docSavePath: ", docSavePath);
 
     const document = {
       html: html,
@@ -120,7 +120,11 @@ exports.downloadInvoices = async (req, res) => {
       path: docSavePath,
     };
 
+    console.log("creating pdf...");
+
     await create(document, options);
+
+    console.log("pdf created.");
 
     const data = fs.readFileSync(docSavePath);
     /* delete pdf after reading contents */
