@@ -12,7 +12,7 @@ exports.createAdmin = async (req, res, next) => {
     isAdmin: true,
   });
 
-  console.log(newAdmin);
+  // console.log(newAdmin);
   // await newAdmin.save();
 
   return res.json({ status: "success" });

@@ -3,6 +3,7 @@ const Users = require("../models/users");
 const { create } = require("pdf-creator-node");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 
 // Creates new invoice
 exports.generateInvoice = async (req, res, next) => {
@@ -102,7 +103,7 @@ exports.downloadInvoices = async (req, res) => {
       header: { height: "0mm" },
     };
 
-    const docSavePath = "/tmp/invoices.pdf";
+    const docSavePath = path.join(os.tmpdir(), "invoices.pdf");
     const document = {
       html: html,
       data: {
