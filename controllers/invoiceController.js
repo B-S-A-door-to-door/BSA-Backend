@@ -90,7 +90,10 @@ exports.downloadInvoices = async (req, res) => {
   try {
     const invoices = req.body;
 
-    const htmlTemplatePath = "../templates/invoice_print.html";
+    const htmlTemplatePath = path.join(
+      __dirname,
+      "../templates/invoice_print.html"
+    );
 
     const html = fs.readFileSync(htmlTemplatePath, "utf-8");
     const options = {
@@ -100,7 +103,9 @@ exports.downloadInvoices = async (req, res) => {
       header: { height: "0mm" },
     };
 
-    const docSavePath = path.join(os.tmpdir(), "invoices.pdf");
+    const fileName = `invoice-${new Date().getTime()}.pdf`;
+    const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
+
     const document = {
       html: html,
       data: {
@@ -110,12 +115,18 @@ exports.downloadInvoices = async (req, res) => {
     };
 
     await create(document, options);
-    console.log("pdf created");
 
     const data = fs.readFileSync(docSavePath);
+    /* delete pdf after reading contents */
+    fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
+      if (err && process.env.NODE_ENV === "development")
+        console.log("could not delete file");
+    });
+
     const base64data = data.toString("base64");
     return res.status(200).json({
-      base64data,
+      status: "success",
+      data: base64data,
     });
   } catch (error) {
     return res.status(500).json({
