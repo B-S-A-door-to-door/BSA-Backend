@@ -113,7 +113,7 @@ exports.downloadInvoices = async (req, res, next) => {
     const document = {
       html: html,
       data: {
-        invoices,
+        invoices: invoices,
       },
       path: docSavePath,
     };
@@ -137,7 +137,7 @@ exports.downloadInvoices = async (req, res, next) => {
           data: base64data,
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error.message));
 
     // await create(document, options);
 
