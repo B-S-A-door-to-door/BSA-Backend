@@ -118,12 +118,8 @@ exports.downloadInvoices = async (req, res, next) => {
       path: docSavePath,
     };
 
-    console.log("creating pdf...");
-
     create(document, options)
-      .then((create_res) => {
-        console.log("pdf created");
-
+      .then(() => {
         const data = fs.readFileSync(docSavePath);
         /* delete pdf after reading contents */
         fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
@@ -137,22 +133,9 @@ exports.downloadInvoices = async (req, res, next) => {
           data: base64data,
         });
       })
-      .catch((error) => console.log(error.message));
-
-    // await create(document, options);
-
-    // const data = fs.readFileSync(docSavePath);
-    // /* delete pdf after reading contents */
-    // fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
-    //   if (err && process.env.NODE_ENV === "development")
-    //     console.log("could not delete file");
-    // });
-
-    // const base64data = data.toString("base64");
-    // return res.status(200).json({
-    //   status: "success",
-    //   data: base64data,
-    // });
+      .catch((error) => {
+        if (process.env.NODE_ENV === "development") console.log(error.message);
+      });
   } catch (error) {
     return res.status(500).json({
       status: "fail",
