@@ -121,7 +121,7 @@ exports.downloadInvoices = async (req, res, next) => {
     console.log("creating pdf...");
 
     create(document, options)
-      .then((res) => {
+      .then((create_res) => {
         console.log("pdf created");
 
         const data = fs.readFileSync(docSavePath);
