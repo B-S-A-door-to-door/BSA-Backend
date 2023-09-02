@@ -90,10 +90,7 @@ exports.downloadInvoices = async (req, res) => {
   try {
     const invoices = req.body;
 
-    const htmlTemplatePath = path.join(
-      __dirname,
-      "../templates/invoice_print.html"
-    );
+    const htmlTemplatePath = "../templates/invoice_print.html";
 
     const html = fs.readFileSync(htmlTemplatePath, "utf-8");
     const options = {
