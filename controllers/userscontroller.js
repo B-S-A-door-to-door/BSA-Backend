@@ -1,22 +1,19 @@
 const Users = require("../models/users");
 
 // TEMP router
-exports.createAdmin = async (req, res, next) => {
-  const newAdmin = await Users.create({
-    fullname: "DevMode Admin 1",
-    username: "devadmin_1",
-    password: 1234,
-    contact: "0256723294",
-    dateOfBirth: '2023-09-11',
-    orgId: "01",
-    isAdmin: true,
-  });
+// exports.createAdmin = async (req, res, next) => {
+//   const newAdmin = await Users.create({
+//     fullname: "DevMode Admin 1",
+//     username: "devadmin_1",
+//     password: 1234,
+//     contact: "0256723294",
+//     dateOfBirth: '2023-09-11',
+//     orgId: "01",
+//     isAdmin: true,
+//   });
 
-  // console.log(newAdmin);
-  // await newAdmin.save();
-
-  return res.json({ status: "success" });
-};
+//   return res.json({ status: "success" });
+// };
 
 // get all users
 exports.getAllUsers = async (req, res, next) => {
