@@ -86,7 +86,7 @@ exports.getAllInvoices = async (req, res, next) => {
   }
 };
 
-exports.downloadInvoices = async (req, res) => {
+exports.downloadInvoices = async (req, res, next) => {
   try {
     const invoices = req.body;
 
@@ -105,8 +105,9 @@ exports.downloadInvoices = async (req, res) => {
 
     const fileName = `invoice-${new Date().getTime()}.pdf`;
     fs.mkdir("../tmp", (err) => {
-      if (err && process.env.NODE_ENV === "development")
-        console.log("could not delete file");
+      // if (err && process.env.NODE_ENV === "development")
+      //   console.log("could not delete file");
+      if (err) console.log("could not delete file");
     });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
 
@@ -120,6 +121,9 @@ exports.downloadInvoices = async (req, res) => {
       path: docSavePath,
     };
 
+    console.log("document: ", document);
+    console.log("options: ", options);
+
     console.log("creating pdf...");
 
     await create(document, options);
@@ -129,8 +133,9 @@ exports.downloadInvoices = async (req, res) => {
     const data = fs.readFileSync(docSavePath);
     /* delete pdf after reading contents */
     fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
-      if (err && process.env.NODE_ENV === "development")
-        console.log("could not delete file");
+      // if (err && process.env.NODE_ENV === "development")
+      //   console.log("could not delete file");
+      if (err) console.log("could not delete file");
     });
 
     const base64data = data.toString("base64");
@@ -143,6 +148,7 @@ exports.downloadInvoices = async (req, res) => {
       status: "fail",
       message: "Invoice download failed",
     });
+    next(error);
   }
 };
 
