@@ -105,13 +105,10 @@ exports.downloadInvoices = async (req, res, next) => {
 
     const fileName = `invoice-${new Date().getTime()}.pdf`;
     fs.mkdir("../tmp", (err) => {
-      // if (err && process.env.NODE_ENV === "development")
-      //   console.log("could not delete file");
-      if (err) console.log("could not delete file");
+      if (err && process.env.NODE_ENV === "development")
+        console.log("could not delete file");
     });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
-
-    console.log("docSavePath: ", docSavePath);
 
     const document = {
       html: html,
@@ -121,28 +118,41 @@ exports.downloadInvoices = async (req, res, next) => {
       path: docSavePath,
     };
 
-    console.log("document: ", document);
-    console.log("options: ", options);
-
     console.log("creating pdf...");
 
-    await create(document, options);
+    create(document, options)
+      .then((res) => {
+        console.log("pdf created");
 
-    console.log("pdf created.");
+        const data = fs.readFileSync(docSavePath);
+        /* delete pdf after reading contents */
+        fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
+          if (err && process.env.NODE_ENV === "development")
+            console.log("could not delete file");
+        });
 
-    const data = fs.readFileSync(docSavePath);
-    /* delete pdf after reading contents */
-    fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
-      // if (err && process.env.NODE_ENV === "development")
-      //   console.log("could not delete file");
-      if (err) console.log("could not delete file");
-    });
+        const base64data = data.toString("base64");
+        return res.status(200).json({
+          status: "success",
+          data: base64data,
+        });
+      })
+      .catch((error) => console.log(error));
 
-    const base64data = data.toString("base64");
-    return res.status(200).json({
-      status: "success",
-      data: base64data,
-    });
+    // await create(document, options);
+
+    // const data = fs.readFileSync(docSavePath);
+    // /* delete pdf after reading contents */
+    // fs.unlink(path.join(__dirname, `../tmp/${fileName}`), (err) => {
+    //   if (err && process.env.NODE_ENV === "development")
+    //     console.log("could not delete file");
+    // });
+
+    // const base64data = data.toString("base64");
+    // return res.status(200).json({
+    //   status: "success",
+    //   data: base64data,
+    // });
   } catch (error) {
     return res.status(500).json({
       status: "fail",
