@@ -110,7 +110,7 @@ exports.downloadInvoices = async (req, res) => {
     });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
 
-    console.log(docSavePath)
+    console.log(docSavePath);
 
     const document = {
       html: html,
@@ -212,20 +212,21 @@ exports.getDashboardData = async (req, res, next) => {
       orgId: req.user.orgId,
       isAdmin: false,
     });
+
+    let responseBody = {
+      status: "success",
+      message: "Successfully retrieved dashboard data",
+      invoices: invoicesData.length,
+      workers: workersData.length,
+    };
     workersData.sort((a, b) => b.invoices.length - a.invoices.length);
     workersData = workersData.filter((worker) => worker.invoices.length !== 0);
-
     // Get the top five workers
     const topFiveWorkers = workersData.slice(0, 5);
+    responseBody.topFiveWorkers = topFiveWorkers;
 
     if (invoicesData || workersData) {
-      return res.status(200).json({
-        status: "success",
-        message: "Successfully retrieved dashboard data",
-        invoices: invoicesData.length,
-        workers: workersData.length,
-        topFiveWorkers,
-      });
+      return res.status(200).json(responseBody);
     }
 
     return res.status(404).json({
