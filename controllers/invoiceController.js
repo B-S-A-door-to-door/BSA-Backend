@@ -110,6 +110,8 @@ exports.downloadInvoices = async (req, res) => {
     });
     const docSavePath = path.join(__dirname, `../tmp/${fileName}`);
 
+    console.log(docSavePath)
+
     const document = {
       html: html,
       data: {
