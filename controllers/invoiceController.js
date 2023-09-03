@@ -7,11 +7,12 @@ const os = require("os");
 
 // Creates new invoice
 exports.generateInvoice = async (req, res, next) => {
+  console.log("fullname: ", req.body.fullname);
   try {
     const results = await Invoices.create({
       username: req.user.username,
       refNumber: req.body.refNumber,
-      invoiceGenerator: req.body.fullname,
+      invoiceGenerator: req.body.invoiceGenerator,
       orgId: req.user.orgId,
       senderName: req.body.senderName,
       senderContact: req.body.senderContact,
