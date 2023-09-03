@@ -11,6 +11,7 @@ exports.generateInvoice = async (req, res, next) => {
     const results = await Invoices.create({
       username: req.user.username,
       refNumber: req.body.refNumber,
+      invoiceGenerator: req.body.fullname,
       orgId: req.user.orgId,
       senderName: req.body.senderName,
       senderContact: req.body.senderContact,
